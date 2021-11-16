@@ -1,11 +1,14 @@
 import { Writer, Reader } from "protobufjs/minimal";
 import { Poll } from "../voter/poll";
+import { Vote } from "../voter/vote";
 export declare const protobufPackage = "coreators.voter.voter";
 /** GenesisState defines the voter module's genesis state. */
 export interface GenesisState {
     pollList: Poll[];
-    /** this line is used by starport scaffolding # genesis/proto/state */
     pollCount: number;
+    voteList: Vote[];
+    /** this line is used by starport scaffolding # genesis/proto/state */
+    voteCount: number;
 }
 export declare const GenesisState: {
     encode(message: GenesisState, writer?: Writer): Writer;

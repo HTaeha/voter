@@ -2,6 +2,7 @@ syntax = "proto3";
 package coreators.voter.voter;
 
 import "voter/poll.proto";
+import "voter/vote.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 import "gogoproto/gogo.proto";
 
@@ -11,5 +12,7 @@ option go_package = "github.com/coreators/voter/x/voter/types";
 message GenesisState {
     repeated Poll pollList = 1 [(gogoproto.nullable) = false];
   uint64 pollCount = 2;
+  repeated Vote voteList = 3 [(gogoproto.nullable) = false];
+  uint64 voteCount = 4;
   // this line is used by starport scaffolding # genesis/proto/state
 }

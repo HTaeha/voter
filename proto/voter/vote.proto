@@ -1,0 +1,14 @@
+syntax = "proto3";
+package coreators.voter.voter;
+
+option go_package = "github.com/coreators/voter/x/voter/types";
+
+import "gogoproto/gogo.proto";
+
+
+message Vote {
+  uint64 id = 1;
+  string pollID = 2; 
+  string option = 3; 
+  string creator = 4;
+}

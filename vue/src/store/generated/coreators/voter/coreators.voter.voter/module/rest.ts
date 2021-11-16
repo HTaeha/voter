@@ -84,9 +84,18 @@ export interface VoterMsgCreatePollResponse {
   id?: string;
 }
 
+export interface VoterMsgCreateVoteResponse {
+  /** @format uint64 */
+  id?: string;
+}
+
 export type VoterMsgDeletePollResponse = object;
 
+export type VoterMsgDeleteVoteResponse = object;
+
 export type VoterMsgUpdatePollResponse = object;
+
+export type VoterMsgUpdateVoteResponse = object;
 
 export interface VoterPoll {
   /** @format uint64 */
@@ -111,8 +120,35 @@ export interface VoterQueryAllPollResponse {
   pagination?: V1Beta1PageResponse;
 }
 
+export interface VoterQueryAllVoteResponse {
+  Vote?: VoterVote[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
 export interface VoterQueryGetPollResponse {
   Poll?: VoterPoll;
+}
+
+export interface VoterQueryGetVoteResponse {
+  Vote?: VoterVote;
+}
+
+export interface VoterVote {
+  /** @format uint64 */
+  id?: string;
+  pollID?: string;
+  option?: string;
+  creator?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -348,6 +384,48 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryPoll = (id: string, params: RequestParams = {}) =>
     this.request<VoterQueryGetPollResponse, RpcStatus>({
       path: `/coreators/voter/voter/poll/${id}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryVoteAll
+   * @summary Queries a list of vote items.
+   * @request GET:/coreators/voter/voter/vote
+   */
+  queryVoteAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.countTotal"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<VoterQueryAllVoteResponse, RpcStatus>({
+      path: `/coreators/voter/voter/vote`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryVote
+   * @summary Queries a vote by id.
+   * @request GET:/coreators/voter/voter/vote/{id}
+   */
+  queryVote = (id: string, params: RequestParams = {}) =>
+    this.request<VoterQueryGetVoteResponse, RpcStatus>({
+      path: `/coreators/voter/voter/vote/${id}`,
       method: "GET",
       format: "json",
       ...params,

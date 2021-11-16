@@ -63,8 +63,14 @@ export interface VoterMsgCreatePollResponse {
     /** @format uint64 */
     id?: string;
 }
+export interface VoterMsgCreateVoteResponse {
+    /** @format uint64 */
+    id?: string;
+}
 export declare type VoterMsgDeletePollResponse = object;
+export declare type VoterMsgDeleteVoteResponse = object;
 export declare type VoterMsgUpdatePollResponse = object;
+export declare type VoterMsgUpdateVoteResponse = object;
 export interface VoterPoll {
     /** @format uint64 */
     id?: string;
@@ -85,8 +91,31 @@ export interface VoterQueryAllPollResponse {
      */
     pagination?: V1Beta1PageResponse;
 }
+export interface VoterQueryAllVoteResponse {
+    Vote?: VoterVote[];
+    /**
+     * PageResponse is to be embedded in gRPC response messages where the
+     * corresponding request message has used PageRequest.
+     *
+     *  message SomeResponse {
+     *          repeated Bar results = 1;
+     *          PageResponse page = 2;
+     *  }
+     */
+    pagination?: V1Beta1PageResponse;
+}
 export interface VoterQueryGetPollResponse {
     Poll?: VoterPoll;
+}
+export interface VoterQueryGetVoteResponse {
+    Vote?: VoterVote;
+}
+export interface VoterVote {
+    /** @format uint64 */
+    id?: string;
+    pollID?: string;
+    option?: string;
+    creator?: string;
 }
 export declare type QueryParamsType = Record<string | number, any>;
 export declare type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -170,5 +199,29 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @request GET:/coreators/voter/voter/poll/{id}
      */
     queryPoll: (id: string, params?: RequestParams) => Promise<HttpResponse<VoterQueryGetPollResponse, RpcStatus>>;
+    /**
+     * No description
+     *
+     * @tags Query
+     * @name QueryVoteAll
+     * @summary Queries a list of vote items.
+     * @request GET:/coreators/voter/voter/vote
+     */
+    queryVoteAll: (query?: {
+        "pagination.key"?: string;
+        "pagination.offset"?: string;
+        "pagination.limit"?: string;
+        "pagination.countTotal"?: boolean;
+        "pagination.reverse"?: boolean;
+    }, params?: RequestParams) => Promise<HttpResponse<VoterQueryAllVoteResponse, RpcStatus>>;
+    /**
+     * No description
+     *
+     * @tags Query
+     * @name QueryVote
+     * @summary Queries a vote by id.
+     * @request GET:/coreators/voter/voter/vote/{id}
+     */
+    queryVote: (id: string, params?: RequestParams) => Promise<HttpResponse<VoterQueryGetVoteResponse, RpcStatus>>;
 }
 export {};

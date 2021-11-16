@@ -22,6 +22,28 @@ export interface MsgDeletePoll {
 }
 export interface MsgDeletePollResponse {
 }
+export interface MsgCreateVote {
+    creator: string;
+    pollID: string;
+    option: string;
+}
+export interface MsgCreateVoteResponse {
+    id: number;
+}
+export interface MsgUpdateVote {
+    creator: string;
+    id: number;
+    pollID: string;
+    option: string;
+}
+export interface MsgUpdateVoteResponse {
+}
+export interface MsgDeleteVote {
+    creator: string;
+    id: number;
+}
+export interface MsgDeleteVoteResponse {
+}
 export declare const MsgCreatePoll: {
     encode(message: MsgCreatePoll, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): MsgCreatePoll;
@@ -64,12 +86,57 @@ export declare const MsgDeletePollResponse: {
     toJSON(_: MsgDeletePollResponse): unknown;
     fromPartial(_: DeepPartial<MsgDeletePollResponse>): MsgDeletePollResponse;
 };
+export declare const MsgCreateVote: {
+    encode(message: MsgCreateVote, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgCreateVote;
+    fromJSON(object: any): MsgCreateVote;
+    toJSON(message: MsgCreateVote): unknown;
+    fromPartial(object: DeepPartial<MsgCreateVote>): MsgCreateVote;
+};
+export declare const MsgCreateVoteResponse: {
+    encode(message: MsgCreateVoteResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgCreateVoteResponse;
+    fromJSON(object: any): MsgCreateVoteResponse;
+    toJSON(message: MsgCreateVoteResponse): unknown;
+    fromPartial(object: DeepPartial<MsgCreateVoteResponse>): MsgCreateVoteResponse;
+};
+export declare const MsgUpdateVote: {
+    encode(message: MsgUpdateVote, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgUpdateVote;
+    fromJSON(object: any): MsgUpdateVote;
+    toJSON(message: MsgUpdateVote): unknown;
+    fromPartial(object: DeepPartial<MsgUpdateVote>): MsgUpdateVote;
+};
+export declare const MsgUpdateVoteResponse: {
+    encode(_: MsgUpdateVoteResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgUpdateVoteResponse;
+    fromJSON(_: any): MsgUpdateVoteResponse;
+    toJSON(_: MsgUpdateVoteResponse): unknown;
+    fromPartial(_: DeepPartial<MsgUpdateVoteResponse>): MsgUpdateVoteResponse;
+};
+export declare const MsgDeleteVote: {
+    encode(message: MsgDeleteVote, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgDeleteVote;
+    fromJSON(object: any): MsgDeleteVote;
+    toJSON(message: MsgDeleteVote): unknown;
+    fromPartial(object: DeepPartial<MsgDeleteVote>): MsgDeleteVote;
+};
+export declare const MsgDeleteVoteResponse: {
+    encode(_: MsgDeleteVoteResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgDeleteVoteResponse;
+    fromJSON(_: any): MsgDeleteVoteResponse;
+    toJSON(_: MsgDeleteVoteResponse): unknown;
+    fromPartial(_: DeepPartial<MsgDeleteVoteResponse>): MsgDeleteVoteResponse;
+};
 /** Msg defines the Msg service. */
 export interface Msg {
     CreatePoll(request: MsgCreatePoll): Promise<MsgCreatePollResponse>;
     UpdatePoll(request: MsgUpdatePoll): Promise<MsgUpdatePollResponse>;
-    /** this line is used by starport scaffolding # proto/tx/rpc */
     DeletePoll(request: MsgDeletePoll): Promise<MsgDeletePollResponse>;
+    CreateVote(request: MsgCreateVote): Promise<MsgCreateVoteResponse>;
+    UpdateVote(request: MsgUpdateVote): Promise<MsgUpdateVoteResponse>;
+    /** this line is used by starport scaffolding # proto/tx/rpc */
+    DeleteVote(request: MsgDeleteVote): Promise<MsgDeleteVoteResponse>;
 }
 export declare class MsgClientImpl implements Msg {
     private readonly rpc;
@@ -77,6 +144,9 @@ export declare class MsgClientImpl implements Msg {
     CreatePoll(request: MsgCreatePoll): Promise<MsgCreatePollResponse>;
     UpdatePoll(request: MsgUpdatePoll): Promise<MsgUpdatePollResponse>;
     DeletePoll(request: MsgDeletePoll): Promise<MsgDeletePollResponse>;
+    CreateVote(request: MsgCreateVote): Promise<MsgCreateVoteResponse>;
+    UpdateVote(request: MsgUpdateVote): Promise<MsgUpdateVoteResponse>;
+    DeleteVote(request: MsgDeleteVote): Promise<MsgDeleteVoteResponse>;
 }
 interface Rpc {
     request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;

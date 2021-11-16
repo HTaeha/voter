@@ -165,5 +165,34 @@ export class Api extends HttpClient {
             format: "json",
             ...params,
         });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryVoteAll
+         * @summary Queries a list of vote items.
+         * @request GET:/coreators/voter/voter/vote
+         */
+        this.queryVoteAll = (query, params = {}) => this.request({
+            path: `/coreators/voter/voter/vote`,
+            method: "GET",
+            query: query,
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryVote
+         * @summary Queries a vote by id.
+         * @request GET:/coreators/voter/voter/vote/{id}
+         */
+        this.queryVote = (id, params = {}) => this.request({
+            path: `/coreators/voter/voter/vote/${id}`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
     }
 }

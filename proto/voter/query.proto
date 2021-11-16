@@ -4,6 +4,7 @@ package coreators.voter.voter;
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "voter/poll.proto";
+import "voter/vote.proto";
 // this line is used by starport scaffolding # 1
 import "gogoproto/gogo.proto";
 
@@ -19,6 +20,16 @@ service Query {
 	// Queries a list of poll items.
 	rpc PollAll(QueryAllPollRequest) returns (QueryAllPollResponse) {
 		option (google.api.http).get = "/coreators/voter/voter/poll";
+	}
+
+// Queries a vote by id.
+	rpc Vote(QueryGetVoteRequest) returns (QueryGetVoteResponse) {
+		option (google.api.http).get = "/coreators/voter/voter/vote/{id}";
+	}
+
+	// Queries a list of vote items.
+	rpc VoteAll(QueryAllVoteRequest) returns (QueryAllVoteResponse) {
+		option (google.api.http).get = "/coreators/voter/voter/vote";
 	}
 
 // this line is used by starport scaffolding # 2
@@ -38,6 +49,23 @@ message QueryAllPollRequest {
 
 message QueryAllPollResponse {
 	repeated Poll Poll = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetVoteRequest {
+	uint64 id = 1;
+}
+
+message QueryGetVoteResponse {
+	Vote Vote = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllVoteRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllVoteResponse {
+	repeated Vote Vote = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

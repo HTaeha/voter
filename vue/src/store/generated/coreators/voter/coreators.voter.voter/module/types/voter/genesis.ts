@@ -2,17 +2,20 @@
 import * as Long from "long";
 import { util, configure, Writer, Reader } from "protobufjs/minimal";
 import { Poll } from "../voter/poll";
+import { Vote } from "../voter/vote";
 
 export const protobufPackage = "coreators.voter.voter";
 
 /** GenesisState defines the voter module's genesis state. */
 export interface GenesisState {
   pollList: Poll[];
-  /** this line is used by starport scaffolding # genesis/proto/state */
   pollCount: number;
+  voteList: Vote[];
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  voteCount: number;
 }
 
-const baseGenesisState: object = { pollCount: 0 };
+const baseGenesisState: object = { pollCount: 0, voteCount: 0 };
 
 export const GenesisState = {
   encode(message: GenesisState, writer: Writer = Writer.create()): Writer {
@@ -22,6 +25,12 @@ export const GenesisState = {
     if (message.pollCount !== 0) {
       writer.uint32(16).uint64(message.pollCount);
     }
+    for (const v of message.voteList) {
+      Vote.encode(v!, writer.uint32(26).fork()).ldelim();
+    }
+    if (message.voteCount !== 0) {
+      writer.uint32(32).uint64(message.voteCount);
+    }
     return writer;
   },
 
@@ -30,6 +39,7 @@ export const GenesisState = {
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseGenesisState } as GenesisState;
     message.pollList = [];
+    message.voteList = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -38,6 +48,12 @@ export const GenesisState = {
           break;
         case 2:
           message.pollCount = longToNumber(reader.uint64() as Long);
+          break;
+        case 3:
+          message.voteList.push(Vote.decode(reader, reader.uint32()));
+          break;
+        case 4:
+          message.voteCount = longToNumber(reader.uint64() as Long);
           break;
         default:
           reader.skipType(tag & 7);
@@ -50,6 +66,7 @@ export const GenesisState = {
   fromJSON(object: any): GenesisState {
     const message = { ...baseGenesisState } as GenesisState;
     message.pollList = [];
+    message.voteList = [];
     if (object.pollList !== undefined && object.pollList !== null) {
       for (const e of object.pollList) {
         message.pollList.push(Poll.fromJSON(e));
@@ -59,6 +76,16 @@ export const GenesisState = {
       message.pollCount = Number(object.pollCount);
     } else {
       message.pollCount = 0;
+    }
+    if (object.voteList !== undefined && object.voteList !== null) {
+      for (const e of object.voteList) {
+        message.voteList.push(Vote.fromJSON(e));
+      }
+    }
+    if (object.voteCount !== undefined && object.voteCount !== null) {
+      message.voteCount = Number(object.voteCount);
+    } else {
+      message.voteCount = 0;
     }
     return message;
   },
@@ -73,12 +100,21 @@ export const GenesisState = {
       obj.pollList = [];
     }
     message.pollCount !== undefined && (obj.pollCount = message.pollCount);
+    if (message.voteList) {
+      obj.voteList = message.voteList.map((e) =>
+        e ? Vote.toJSON(e) : undefined
+      );
+    } else {
+      obj.voteList = [];
+    }
+    message.voteCount !== undefined && (obj.voteCount = message.voteCount);
     return obj;
   },
 
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = { ...baseGenesisState } as GenesisState;
     message.pollList = [];
+    message.voteList = [];
     if (object.pollList !== undefined && object.pollList !== null) {
       for (const e of object.pollList) {
         message.pollList.push(Poll.fromPartial(e));
@@ -88,6 +124,16 @@ export const GenesisState = {
       message.pollCount = object.pollCount;
     } else {
       message.pollCount = 0;
+    }
+    if (object.voteList !== undefined && object.voteList !== null) {
+      for (const e of object.voteList) {
+        message.voteList.push(Vote.fromPartial(e));
+      }
+    }
+    if (object.voteCount !== undefined && object.voteCount !== null) {
+      message.voteCount = object.voteCount;
+    } else {
+      message.voteCount = 0;
     }
     return message;
   },
