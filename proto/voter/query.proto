@@ -3,13 +3,42 @@ package coreators.voter.voter;
 
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
+import "voter/poll.proto";
 // this line is used by starport scaffolding # 1
+import "gogoproto/gogo.proto";
 
 option go_package = "github.com/coreators/voter/x/voter/types";
 
 // Query defines the gRPC querier service.
 service Query {
-    // this line is used by starport scaffolding # 2
+    // Queries a poll by id.
+	rpc Poll(QueryGetPollRequest) returns (QueryGetPollResponse) {
+		option (google.api.http).get = "/coreators/voter/voter/poll/{id}";
+	}
+
+	// Queries a list of poll items.
+	rpc PollAll(QueryAllPollRequest) returns (QueryAllPollResponse) {
+		option (google.api.http).get = "/coreators/voter/voter/poll";
+	}
+
+// this line is used by starport scaffolding # 2
+}
+
+message QueryGetPollRequest {
+	uint64 id = 1;
+}
+
+message QueryGetPollResponse {
+	Poll Poll = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllPollRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllPollResponse {
+	repeated Poll Poll = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3
