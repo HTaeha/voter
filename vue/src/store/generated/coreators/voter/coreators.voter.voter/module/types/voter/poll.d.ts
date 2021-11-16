@@ -3,7 +3,7 @@ export declare const protobufPackage = "coreators.voter.voter";
 export interface Poll {
     id: number;
     title: string;
-    options: string;
+    options: string[];
     creator: string;
 }
 export declare const Poll: {

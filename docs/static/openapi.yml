@@ -25,7 +25,9 @@ paths:
                     title:
                       type: string
                     options:
-                      type: string
+                      type: array
+                      items:
+                        type: string
                     creator:
                       type: string
               pagination:
@@ -148,7 +150,9 @@ paths:
                   title:
                     type: string
                   options:
-                    type: string
+                    type: array
+                    items:
+                      type: string
                   creator:
                     type: string
         default:
@@ -12694,7 +12698,9 @@ definitions:
       title:
         type: string
       options:
-        type: string
+        type: array
+        items:
+          type: string
       creator:
         type: string
   coreators.voter.voter.QueryAllPollResponse:
@@ -12711,7 +12717,9 @@ definitions:
             title:
               type: string
             options:
-              type: string
+              type: array
+              items:
+                type: string
             creator:
               type: string
       pagination:
@@ -12751,7 +12759,9 @@ definitions:
           title:
             type: string
           options:
-            type: string
+            type: array
+            items:
+              type: string
           creator:
             type: string
   cosmos.base.query.v1beta1.PageRequest:

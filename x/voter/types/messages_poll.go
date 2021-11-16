@@ -7,7 +7,7 @@ import (
 
 var _ sdk.Msg = &MsgCreatePoll{}
 
-func NewMsgCreatePoll(creator string, title string, options string) *MsgCreatePoll {
+func NewMsgCreatePoll(creator string, title string, options []string) *MsgCreatePoll {
 	return &MsgCreatePoll{
 		Creator: creator,
 		Title:   title,
@@ -46,7 +46,7 @@ func (msg *MsgCreatePoll) ValidateBasic() error {
 
 var _ sdk.Msg = &MsgUpdatePoll{}
 
-func NewMsgUpdatePoll(creator string, id uint64, title string, options string) *MsgUpdatePoll {
+func NewMsgUpdatePoll(creator string, id uint64, title string, options []string) *MsgUpdatePoll {
 	return &MsgUpdatePoll{
 		Id:      id,
 		Creator: creator,
