@@ -18,6 +18,15 @@ func (k msgServer) CreateVote(goCtx context.Context, msg *types.MsgCreateVote) (
 		Option:  msg.Option,
 	}
 
+	votes := k.GetAllVote(ctx)
+	for _, v := range votes {
+		// Check if the account has already voted on this PollID
+		if v.Creator == msg.Creator && v.PollID == msg.PollID {
+			// Return an error when a vote has been cast by this account on this PollID
+			return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "Vote already casted.")
+		}
+	}
+
 	id := k.AppendVote(
 		ctx,
 		vote,

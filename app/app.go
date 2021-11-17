@@ -347,6 +347,7 @@ func New(
 		appCodec,
 		keys[votermoduletypes.StoreKey],
 		keys[votermoduletypes.MemStoreKey],
+		app.BankKeeper,
 	)
 	voterModule := votermodule.NewAppModule(appCodec, app.VoterKeeper)
 
